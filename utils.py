@@ -5,8 +5,8 @@ import random
 from nltk.corpus import stopwords
 import nltk
 
-REPLACE_NO_SPACE = re.compile("[._;:!`¦\'?,\"()\[\]]")
-REPLACE_WITH_SPACE = re.compile("(<br\s*/><br\s*/>)|(\-)|(\/)")
+REPLACE_NO_SPACE = re.compile(r"[._;:!`¦\'?,\"()\[\]]")
+REPLACE_WITH_SPACE = re.compile(r"(<br\s*/><br\s*/>)|(\-)|(\/)")
 nltk.download('stopwords')
 
 
