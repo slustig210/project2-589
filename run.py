@@ -1,10 +1,10 @@
-from utils import preprocess_text, load_training_set, load_test_set
-import pprint
+from utils import load_training_set, load_test_set
+# import pprint
 from collections import Counter
-from math import prod, log2
+from math import inf, prod, log2
 
 
-def naive_bayes(logProb: bool = True):
+def naive_bayes(useLog: bool = True):
     percentage_positive_instances_train = 0.0004
     percentage_negative_instances_train = 0.0004
 
@@ -45,51 +45,39 @@ def naive_bayes(logProb: bool = True):
     # Pr(w | pos) = posCounts[w] / totalPosCounts
     # Pr(w | neg) = negCounts[w] / totalNegCounts
 
-    if logProb:
-        truePos = 0
-        for doc in pos_test:
-            pos = prPos * prod(posCounts[w] / totalPosCounts for w in doc)
-            neg = prNeg * prod(negCounts[w] / totalNegCounts for w in doc)
+    print(f"{useLog = }")
 
-            if pos >= neg:
-                truePos += 1
+    if useLog:
 
-        trueNeg = 0
-        for doc in neg_test:
-            pos = prPos * prod(posCounts[w] / totalPosCounts for w in doc)
-            neg = prNeg * prod(negCounts[w] / totalNegCounts for w in doc)
+        def evaluateDoc(doc: list[str]):
+            try:
+                pos = log2(prPos) + sum(
+                    log2(posCounts[w] / totalPosCounts) for w in doc)
+            except ValueError:
+                pos = -inf
 
-            if pos < neg:
-                trueNeg += 1
+            try:
+                neg = log2(prNeg) + sum(
+                    log2(negCounts[w] / totalNegCounts) for w in doc)
+            except ValueError:
+                neg = -inf
+
+            return pos >= neg
     else:
-        # TODO: not sure if supposed to add 1 to all the counts... check the slides ig
-        truePos = 0
-        for doc in pos_test:
-            pos = log2(prPos) + sum(
-                log2(posCounts[w] / totalPosCounts)
-                for w in doc
-                if posCounts[w])
-            neg = log2(prNeg) + sum(
-                log2(negCounts[w] / totalNegCounts)
-                for w in doc
-                if negCounts[w])
 
-            if pos >= neg:
-                truePos += 1
+        def evaluateDoc(doc: list[str]):
+            pos = prPos * prod(posCounts[w] / totalPosCounts for w in doc)
+            neg = prNeg * prod(negCounts[w] / totalNegCounts for w in doc)
 
-        trueNeg = 0
-        for doc in neg_test:
-            pos = log2(prPos) + sum(
-                log2(posCounts[w] / totalPosCounts)
-                for w in doc
-                if posCounts[w])
-            neg = log2(prNeg) + sum(
-                log2(negCounts[w] / totalNegCounts)
-                for w in doc
-                if negCounts[w])
+            return pos >= neg
 
-            if neg < pos:
-                trueNeg += 1
+    truePos = sum(1 for doc in pos_test if evaluateDoc(doc))
+    falsePos = sum(1 for doc in neg_test if evaluateDoc(doc))
+
+    print(f"{truePos = }")
+    print(f"falseNeg = {len(pos_test) - truePos}")
+    print(f"{falsePos = }")
+    print(f"trueNeg = {len(neg_test) - falsePos}")
 
 
 if __name__ == "__main__":
