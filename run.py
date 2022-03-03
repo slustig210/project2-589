@@ -28,6 +28,9 @@ def naive_bayes(logProb: bool = True):
     print("Vocabulary (training set):", len(vocab))
 
     # probability positive = len(pos_train) / (len(pos_train) + len(neg_train))
+    assert len(pos_train) + len(neg_train) > 0, \
+            f"{len(pos_train) = }, {len(neg_train) = }"
+
     prPos = len(pos_train) / (len(pos_train) + len(neg_train))
     prNeg = 1 - prPos
 
