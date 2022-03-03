@@ -39,8 +39,14 @@ def naive_bayes(useLog: bool = True):
     posCounts = Counter(w for doc in pos_train for w in doc)
     negCounts = Counter(w for doc in neg_train for w in doc)
 
+    print(
+        f"{len(posCounts) = }, {len(negCounts) = }, {len(posCounts | negCounts) = }"
+    )
+
     totalPosCounts = sum(posCounts.values())
     totalNegCounts = sum(negCounts.values())
+
+    print(f"{totalPosCounts = }, {totalNegCounts = }")
 
     # Pr(w | pos) = posCounts[w] / totalPosCounts
     # Pr(w | neg) = negCounts[w] / totalNegCounts
@@ -52,13 +58,17 @@ def naive_bayes(useLog: bool = True):
         def evaluateDoc(doc: list[str]):
             try:
                 pos = log2(prPos) + sum(
-                    log2(posCounts[w] / totalPosCounts) for w in doc)
+                    log2(posCounts[w] / totalPosCounts)
+                    for w in doc
+                    if w in vocab)
             except ValueError:
                 pos = -inf
 
             try:
                 neg = log2(prNeg) + sum(
-                    log2(negCounts[w] / totalNegCounts) for w in doc)
+                    log2(negCounts[w] / totalNegCounts)
+                    for w in doc
+                    if w in vocab)
             except ValueError:
                 neg = -inf
 
@@ -66,8 +76,10 @@ def naive_bayes(useLog: bool = True):
     else:
 
         def evaluateDoc(doc: list[str]):
-            pos = prPos * prod(posCounts[w] / totalPosCounts for w in doc)
-            neg = prNeg * prod(negCounts[w] / totalNegCounts for w in doc)
+            pos = prPos * prod(
+                posCounts[w] / totalPosCounts for w in doc if w in vocab)
+            neg = prNeg * prod(
+                negCounts[w] / totalNegCounts for w in doc if w in vocab)
 
             return pos >= neg
 
