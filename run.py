@@ -16,6 +16,8 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
         0 <= percentage_positive_instances_test <= 1 and \
         0 <= percentage_negative_instances_test <= 1
 
+    assert alpha >= 0
+
     (pos_train, neg_train,
      vocab) = load_training_set(percentage_positive_instances_train,
                                 percentage_negative_instances_train)
