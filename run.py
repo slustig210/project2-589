@@ -11,6 +11,11 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
                 useLog: bool = True,
                 alpha: int = 1):
 
+    assert 0 <= percentage_positive_instances_train <= 1 and \
+        0 <= percentage_negative_instances_train <= 1 and \
+        0 <= percentage_positive_instances_test <= 1 and \
+        0 <= percentage_negative_instances_test <= 1
+
     (pos_train, neg_train,
      vocab) = load_training_set(percentage_positive_instances_train,
                                 percentage_negative_instances_train)
@@ -28,7 +33,7 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
     print("Vocabulary (training set):", len(vocab))
 
     # probability positive = len(pos_train) / (len(pos_train) + len(neg_train))
-    assert len(pos_train) + len(neg_train) > 0, \
+    assert not (len(pos_train) + len(neg_train) <= 0), \
             f"{len(pos_train) = }, {len(neg_train) = }"
 
     alphaV = alpha * len(vocab)
@@ -59,15 +64,15 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
         def evaluateDoc(doc: list[str]):
             try:
                 pos = log2(prPos) + sum(
-                    log2((posCounts[w] + alpha) /
-                         (totalPosCounts + alphaV)) for w in doc if w in vocab)
+                    log2((posCounts[w] + alpha) / (totalPosCounts + alphaV))
+                    for w in set(doc))
             except ValueError:
                 pos = -inf
 
             try:
                 neg = log2(prNeg) + sum(
-                    log2((negCounts[w] + alpha) /
-                         (totalNegCounts + alphaV)) for w in doc if w in vocab)
+                    log2((negCounts[w] + alpha) / (totalNegCounts + alphaV))
+                    for w in set(doc))
             except ValueError:
                 neg = -inf
 
@@ -76,11 +81,11 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
 
         def evaluateDoc(doc: list[str]):
             pos = prPos * prod(
-                (posCounts[w] + alpha) /
-                (totalPosCounts + alphaV) for w in doc if w in vocab)
+                (posCounts[w] + alpha) / (totalPosCounts + alphaV)
+                for w in set(doc))
             neg = prNeg * prod(
-                (negCounts[w] + alpha) /
-                (totalNegCounts + alphaV) for w in doc if w in vocab)
+                (negCounts[w] + alpha) / (totalNegCounts + alphaV)
+                for w in set(doc))
 
             return pos >= neg
 
