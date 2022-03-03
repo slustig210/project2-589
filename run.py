@@ -18,11 +18,12 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
 
     assert alpha >= 0
 
-    (pos_train, neg_train,
-     vocab) = load_training_set(percentage_positive_instances_train,
-                                percentage_negative_instances_train)
-    (pos_test, neg_test) = load_test_set(percentage_positive_instances_test,
-                                         percentage_negative_instances_test)
+    pos_train, neg_train, vocab = load_training_set(
+        percentage_positive_instances_train,
+        percentage_negative_instances_train)
+
+    pos_test, neg_test = load_test_set(percentage_positive_instances_test,
+                                       percentage_negative_instances_test)
 
     print("Number of positive training instances:", len(pos_train))
     print("Number of negative training instances:", len(neg_train))
