@@ -35,12 +35,12 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
             f.write("%s\n" % word)
     print("Vocabulary (training set):", len(vocab))
 
-    # probability positive = len(pos_train) / (len(pos_train) + len(neg_train))
-    assert not (len(pos_train) + len(neg_train) <= 0), \
+    assert len(pos_train) + len(neg_train) > 0, \
             f"{len(pos_train) = }, {len(neg_train) = }"
 
     alphaV = alpha * len(vocab)
 
+    # probability positive = len(pos_train) / (len(pos_train) + len(neg_train))
     prPos = len(pos_train) / (len(pos_train) + len(neg_train))
     prNeg = 1 - prPos
 
