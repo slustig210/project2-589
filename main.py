@@ -15,7 +15,7 @@ def question2():
     boxedPrint("Question 2")
     naive_bayes()
 
-    x, y = [], []
+    x, y = list[float](), list[float]()
     alpha = 0.0001
     while alpha <= 1000:
         x.append(alpha)
