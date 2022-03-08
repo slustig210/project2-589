@@ -51,7 +51,7 @@ def question6():
 if __name__ == "__main__":
     import sys
 
-    if len(sys.argv[1:]) > 1:
+    if len(sys.argv) > 1:
         for arg in sys.argv:
             try:
                 QUESTIONS[int(arg)]()
