@@ -168,9 +168,9 @@ def question3():
 
 
 QUESTION_MAP = {
-    1: question1,
-    2: question2,
-    3: question3,
+    '1': question1,
+    '2': question2,
+    '3': question3,
     # 4: question4,
     # 5: question5,
 }
@@ -179,4 +179,4 @@ if __name__ == "__main__":
     import sys
 
     for arg in sys.argv[1:]:
-        QUESTION_MAP(int(arg))
+        QUESTION_MAP[arg]()
