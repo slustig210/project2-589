@@ -98,7 +98,6 @@ def question(arg: int | Callable[[], None]):
 
     >>> @question(4)
     ... def myQuestion():
-    ...     ...
     ... 
     >>> QUESTIONS['4'] == myQuestion
     True
@@ -116,6 +115,25 @@ def question(arg: int | Callable[[], None]):
 
     Returns:
         f, unmodified
+
+    Usage:
+
+    >>> @question
+    ... def myQuestion1():
+    ...
+    >>> @question
+    ... def myQuestion2():
+    ...
+    >>> QUESTIONS['2'] == myQuestion2
+    True
+    >>> @question(6)
+    ... def myQuestion6():
+    ...
+    >>> @question
+    ... def myQuestion7():
+    ...
+    >>> QUESTIONS['7'] == myQuestion7
+    True
     """
     mx: int = getattr(question, "mx", 0)
 
