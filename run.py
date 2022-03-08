@@ -53,6 +53,8 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
     assert len(pos_train) + len(neg_train) > 0, \
             f"{len(pos_train) = }, {len(neg_train) = }"
 
+    print("Training...")
+
     alphaV = alpha * len(vocab)
 
     # probability positive = len(pos_train) / (len(pos_train) + len(neg_train))
@@ -69,20 +71,23 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
     # Pr(w | pos) = posCounts[w] / totalPosCounts
     # Pr(w | neg) = negCounts[w] / totalNegCounts
 
+    print("Testing...")
+
     if useLog:
 
         def evaluateDoc(doc: list[str]):
+            s = set(doc)
             try:
                 pos = log2(prPos) + sum(
                     log2((posCounts[w] + alpha) / (totalPosCounts + alphaV))
-                    for w in set(doc))
+                    for w in s)
             except ValueError:
                 pos = -inf
 
             try:
                 neg = log2(prNeg) + sum(
                     log2((negCounts[w] + alpha) / (totalNegCounts + alphaV))
-                    for w in set(doc))
+                    for w in s)
             except ValueError:
                 neg = -inf
 
@@ -90,12 +95,11 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
     else:
 
         def evaluateDoc(doc: list[str]):
+            s = set(doc)
             pos = prPos * prod(
-                (posCounts[w] + alpha) / (totalPosCounts + alphaV)
-                for w in set(doc))
+                (posCounts[w] + alpha) / (totalPosCounts + alphaV) for w in s)
             neg = prNeg * prod(
-                (negCounts[w] + alpha) / (totalNegCounts + alphaV)
-                for w in set(doc))
+                (negCounts[w] + alpha) / (totalNegCounts + alphaV) for w in s)
 
             return pos >= neg
 
@@ -128,6 +132,10 @@ def question1():
     boxedPrint("Question 1")
     naive_bayes(0.2, 0.2, 0.2, 0.2, False, 0)
     naive_bayes(0.2, 0.2, 0.2, 0.2, True, 0)
+
+
+def question2():
+    boxedPrint("Question 2")
 
 
 def main():
