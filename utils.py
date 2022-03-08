@@ -139,6 +139,17 @@ def boxedPrint(s: str, boxChar: str = '*'):
     Args:
         s (str): The string to print.
         boxChar (str, optional): The character to create the box with. Must be length 1. Defaults to '*'.
+
+    Usage:
+
+        >>> boxedPrint("Hello, World!", '=') 
+        =================
+        = Hello, World! =
+        =================
+        >>> boxedPrint("Question 1")
+        **************
+        * Question 1 *
+        **************
     """
 
     assert len(
