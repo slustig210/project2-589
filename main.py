@@ -13,7 +13,7 @@ def question1():
 @question(2)
 def question2():
     boxedPrint("Question 2")
-    naive_bayes()
+    naive_bayes(alpha=1)
 
     x, y = list[float](), list[float]()
     alpha = 0.0001
@@ -33,19 +33,19 @@ def question2():
 @question(3)
 def question3():
     boxedPrint("Question 3")
-    naive_bayes(1, 1, 1, 1, alpha=10)
+    naive_bayes(1, 1, 1, 1)
 
 
 @question(4)
 def question4():
     boxedPrint("Question 4")
-    naive_bayes(0.5, 0.5, 1, 1, alpha=10)
+    naive_bayes(0.5, 0.5, 1, 1)
 
 
 @question(6)
 def question6():
     boxedPrint("Question 6")
-    naive_bayes(0.1, 0.5, 1, 1, alpha=10)
+    naive_bayes(0.1, 0.5, 1, 1)
 
 
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ def naive_bayes(percentage_positive_instances_train: float = 0.2,
                 percentage_positive_instances_test: float = 0.2,
                 percentage_negative_instances_test: float = 0.2,
                 useLog: bool = True,
-                alpha: float = 1,
+                alpha: float = 10,
                 output: bool = True) -> tuple[int, int, int, int]:
     """Train the naive bayes algorithm on a randomly chosen training set
     and then test on a randomly chosen testing set.
@@ -19,7 +19,7 @@ def naive_bayes(percentage_positive_instances_train: float = 0.2,
         percentage_positive_instances_test (float, optional): The amount of positive instances to test with. Defaults to 0.2.
         percentage_negative_instances_test (float, optional): The amount of negative instances to test with. Defaults to 0.2.
         useLog (bool, optional): Whether or not to compute using log probabilities to improve accuracy. Defaults to True.
-        alpha (float, optional): Value of alpha for Laplace smoothing. Defaults to 1.
+        alpha (float, optional): Value of alpha for Laplace smoothing. Defaults to 10.
         output (bool, optional): Whether or not to print status to the console. Defaults to True.
 
     Returns:
