@@ -10,6 +10,20 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
                 percentage_negative_instances_test: float = 0.0004,
                 useLog: bool = True,
                 alpha: int = 1):
+    """Train the naive bayes algorithm on a randomly chosen training set
+    and then test on a randomly chosen testing set.
+
+    Args:
+        percentage_positive_instances_train (float, optional): The amount of positive instances to train with. Defaults to 0.0004.
+        percentage_negative_instances_train (float, optional): The amount of negative instances to train with. Defaults to 0.0004.
+        percentage_positive_instances_test (float, optional): The amount of positive instances to test with. Defaults to 0.0004.
+        percentage_negative_instances_test (float, optional): The amount of negative instances to test with. Defaults to 0.0004.
+        useLog (bool, optional): Whether or not to compute using log probabilities to improve accuracy. Defaults to True.
+        alpha (int, optional): Value of alpha for Laplace smoothing. Defaults to 1.
+
+    Returns:
+        tuple[int, int, int, int]: truePos, falseNeg, falsePos, trueNeg
+    """
 
     assert 0 <= percentage_positive_instances_train <= 1 and \
         0 <= percentage_negative_instances_train <= 1 and \
@@ -17,6 +31,8 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
         0 <= percentage_negative_instances_test <= 1
 
     assert alpha >= 0
+
+    print("Loading instances...")
 
     pos_train, neg_train, vocab = load_training_set(
         percentage_positive_instances_train,
@@ -30,13 +46,11 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
     print("Number of positive test instances:", len(pos_test))
     print("Number of negative test instances:", len(neg_test))
 
-    with open('vocab.txt', 'w') as f:
-        for word in vocab:
-            f.write("%s\n" % word)
-    print("Vocabulary (training set):", len(vocab))
-
     assert len(pos_train) + len(neg_train) > 0, \
             f"{len(pos_train) = }, {len(neg_train) = }"
+
+    print(f"Running with{'' if useLog else 'out'} log probabilities")
+    print(f"{alpha = }")
 
     alphaV = alpha * len(vocab)
 
@@ -48,19 +62,11 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
     posCounts = Counter(w for doc in pos_train for w in doc)
     negCounts = Counter(w for doc in neg_train for w in doc)
 
-    print(
-        f"{len(posCounts) = }, {len(negCounts) = }, {len(posCounts|negCounts) = }"
-    )
-
     totalPosCounts = sum(posCounts.values())
     totalNegCounts = sum(negCounts.values())
 
-    print(f"{totalPosCounts = }, {totalNegCounts = }")
-
     # Pr(w | pos) = posCounts[w] / totalPosCounts
     # Pr(w | neg) = negCounts[w] / totalNegCounts
-
-    print(f"{useLog = }, {alpha = }")
 
     if useLog:
 
@@ -95,13 +101,35 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
     truePos = sum(1 for doc in pos_test if evaluateDoc(doc))
     falsePos = sum(1 for doc in neg_test if evaluateDoc(doc))
 
-    print(f"{truePos = }")
-    print(f"falseNeg = {len(pos_test) - truePos}")
-    print(f"{falsePos = }")
-    print(f"trueNeg = {len(neg_test) - falsePos}")
+    trueNeg, falseNeg = len(neg_test) - falsePos, len(pos_test) - truePos
 
-    return truePos, falsePos, len(neg_test) - falsePos, len(pos_test) - truePos
+    print("Confusion matrix:")
+    print(f"{truePos:<12}{falseNeg}\n{falsePos:<12}{falseNeg}")
+
+    print("Accuracy:", (truePos + falsePos) / (len(pos_test) + len(neg_test)))
+    print("Precision:", truePos / (truePos + falsePos))
+    print("Recall:", truePos / (truePos + falseNeg))
+
+    return truePos, falseNeg, falsePos, trueNeg
+
+
+def boxedPrint(s: str, boxChar: str = '*'):
+    assert len(boxChar) == 1
+
+    print(boxChar * (len(s) + 4))
+    print(f"{boxChar} {s} {boxChar}")
+    print(boxChar * (len(s) + 4))
+
+
+def question1():
+    # Question 1
+    boxedPrint("Question 1")
+    naive_bayes(0.2, 0.2, 0.2, 0.2, False, 0)
+
+
+def main():
+    question1()
 
 
 if __name__ == "__main__":
-    naive_bayes()
+    main()
