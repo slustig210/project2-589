@@ -1,0 +1,132 @@
+
+**************
+* Question 1 *
+**************
+------------------------------
+Beginning test.
+Running without log probabilities
+alpha = 0
+Loading instances...
+Number of positive training instances: 2518
+Number of negative training instances: 2582
+Number of positive test instances: 2451
+Number of negative test instances: 2538
+Training...
+Testing...
+Accuracy: 0.5187412307075566
+Precision: 0.5053717232488182
+Recall: 0.9596083231334149
+Confusion matrix:
+2352        99
+2302        236
+------------------------------
+------------------------------
+Beginning test.
+Running with log probabilities
+alpha = 0
+Loading instances...
+Number of positive training instances: 2511
+Number of negative training instances: 2534
+Number of positive test instances: 2447
+Number of negative test instances: 2571
+Training...
+Testing...
+Accuracy: 0.5149461937026704
+Precision: 0.5013885921811578
+Recall: 0.9591336330200245
+Confusion matrix:
+2347        100
+2334        237
+------------------------------
+**************
+* Question 2 *
+**************
+------------------------------
+Beginning test.
+Running with log probabilities
+alpha = 1
+Loading instances...
+Number of positive training instances: 2483
+Number of negative training instances: 2531
+Number of positive test instances: 2416
+Number of negative test instances: 2542
+Training...
+Testing...
+Accuracy: 0.8221056877773296
+Precision: 0.852157943067034
+Recall: 0.7682119205298014
+Confusion matrix:
+1856        560
+322         2220
+------------------------------
+Running alpha = 0.0001
+Running alpha = 0.001
+Running alpha = 0.01
+Running alpha = 0.1
+Running alpha = 1.0
+Running alpha = 10.0
+Running alpha = 100.0
+Running alpha = 1000.0
+**************
+* Question 3 *
+**************
+------------------------------
+Beginning test.
+Running with log probabilities
+alpha = 10
+Loading instances...
+Number of positive training instances: 12500
+Number of negative training instances: 12500
+Number of positive test instances: 12500
+Number of negative test instances: 12500
+Training...
+Testing...
+Accuracy: 0.84256
+Precision: 0.8762080477947637
+Recall: 0.79784
+Confusion matrix:
+9973        2527
+1409        11091
+------------------------------
+**************
+* Question 4 *
+**************
+------------------------------
+Beginning test.
+Running with log probabilities
+alpha = 10
+Loading instances...
+Number of positive training instances: 6249
+Number of negative training instances: 6206
+Number of positive test instances: 12500
+Number of negative test instances: 12500
+Training...
+Testing...
+Accuracy: 0.84816
+Precision: 0.8697536108751062
+Recall: 0.81896
+Confusion matrix:
+10237       2263
+1533        10967
+------------------------------
+**************
+* Question 6 *
+**************
+------------------------------
+Beginning test.
+Running with log probabilities
+alpha = 10
+Loading instances...
+Number of positive training instances: 1194
+Number of negative training instances: 6198
+Number of positive test instances: 12500
+Number of negative test instances: 12500
+Training...
+Testing...
+Accuracy: 0.50016
+Precision: 0.8333333333333334
+Recall: 0.0004
+Confusion matrix:
+5           12495
+1           12499
+------------------------------
