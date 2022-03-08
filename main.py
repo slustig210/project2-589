@@ -55,8 +55,10 @@ if __name__ == "__main__":
         for arg in sys.argv:
             try:
                 QUESTIONS[int(arg)]()
-            except (KeyError, ValueError):
+            except ValueError:
                 pass
+            except KeyError:
+                print(f"No such question {arg}")
     else:
         for q in QUESTIONS.values():
             q()
