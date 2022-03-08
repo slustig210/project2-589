@@ -2,24 +2,27 @@ from utils import load_training_set, load_test_set
 # import pprint
 from collections import Counter
 from math import inf, prod, log2
+import matplotlib.pyplot as plt
 
 
-def naive_bayes(percentage_positive_instances_train: float = 0.0004,
-                percentage_negative_instances_train: float = 0.0004,
-                percentage_positive_instances_test: float = 0.0004,
-                percentage_negative_instances_test: float = 0.0004,
+def naive_bayes(percentage_positive_instances_train: float = 0.2,
+                percentage_negative_instances_train: float = 0.2,
+                percentage_positive_instances_test: float = 0.2,
+                percentage_negative_instances_test: float = 0.2,
                 useLog: bool = True,
-                alpha: int = 1):
+                alpha: int = 1,
+                output: bool = True) -> tuple[int, int, int, int]:
     """Train the naive bayes algorithm on a randomly chosen training set
     and then test on a randomly chosen testing set.
 
     Args:
-        percentage_positive_instances_train (float, optional): The amount of positive instances to train with. Defaults to 0.0004.
-        percentage_negative_instances_train (float, optional): The amount of negative instances to train with. Defaults to 0.0004.
-        percentage_positive_instances_test (float, optional): The amount of positive instances to test with. Defaults to 0.0004.
-        percentage_negative_instances_test (float, optional): The amount of negative instances to test with. Defaults to 0.0004.
+        percentage_positive_instances_train (float, optional): The amount of positive instances to train with. Defaults to 0.2.
+        percentage_negative_instances_train (float, optional): The amount of negative instances to train with. Defaults to 0.2.
+        percentage_positive_instances_test (float, optional): The amount of positive instances to test with. Defaults to 0.2.
+        percentage_negative_instances_test (float, optional): The amount of negative instances to test with. Defaults to 0.2.
         useLog (bool, optional): Whether or not to compute using log probabilities to improve accuracy. Defaults to True.
         alpha (int, optional): Value of alpha for Laplace smoothing. Defaults to 1.
+        output (bool, optional): Whether or not to print status to the console. Defaults to True.
 
     Returns:
         tuple[int, int, int, int]: truePos, falseNeg, falsePos, trueNeg
@@ -32,11 +35,12 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
 
     assert alpha >= 0
 
-    print('-' * 30)
-    print("Beginning test.")
-    print(f"Running with{'' if useLog else 'out'} log probabilities")
-    print(f"{alpha = }")
-    print("Loading instances...")
+    if output:
+        print('-' * 30)
+        print("Beginning test.")
+        print(f"Running with{'' if useLog else 'out'} log probabilities")
+        print(f"{alpha = }")
+        print("Loading instances...")
 
     pos_train, neg_train, vocab = load_training_set(
         percentage_positive_instances_train,
@@ -45,15 +49,17 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
     pos_test, neg_test = load_test_set(percentage_positive_instances_test,
                                        percentage_negative_instances_test)
 
-    print("Number of positive training instances:", len(pos_train))
-    print("Number of negative training instances:", len(neg_train))
-    print("Number of positive test instances:", len(pos_test))
-    print("Number of negative test instances:", len(neg_test))
+    if output:
+        print("Number of positive training instances:", len(pos_train))
+        print("Number of negative training instances:", len(neg_train))
+        print("Number of positive test instances:", len(pos_test))
+        print("Number of negative test instances:", len(neg_test))
 
     assert len(pos_train) + len(neg_train) > 0, \
             f"{len(pos_train) = }, {len(neg_train) = }"
 
-    print("Training...")
+    if output:
+        print("Training...")
 
     alphaV = alpha * len(vocab)
 
@@ -71,7 +77,8 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
     # Pr(w | pos) = posCounts[w] / totalPosCounts
     # Pr(w | neg) = negCounts[w] / totalNegCounts
 
-    print("Testing...")
+    if output:
+        print("Testing...")
 
     if useLog:
 
@@ -108,13 +115,15 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
 
     trueNeg, falseNeg = len(neg_test) - falsePos, len(pos_test) - truePos
 
-    print("Accuracy:", (truePos + falsePos) / (len(pos_test) + len(neg_test)))
-    print("Precision:", truePos / (truePos + falsePos))
-    print("Recall:", truePos / (truePos + falseNeg))
-    print("Confusion matrix:")
-    print(f"{truePos:<12}{falseNeg}\n{falsePos:<12}{falseNeg}")
+    if output:
+        print("Accuracy:",
+              (truePos + trueNeg) / (len(pos_test) + len(neg_test)))
+        print("Precision:", truePos / (truePos + falsePos))
+        print("Recall:", truePos / (truePos + falseNeg))
+        print("Confusion matrix:")
+        print(f"{truePos:<12}{falseNeg}\n{falsePos:<12}{trueNeg}")
 
-    print('-' * 30)
+        print('-' * 30)
 
     return truePos, falseNeg, falsePos, trueNeg
 
@@ -130,17 +139,29 @@ def boxedPrint(s: str, boxChar: str = '*'):
 def question1():
     # Question 1
     boxedPrint("Question 1")
-    naive_bayes(0.2, 0.2, 0.2, 0.2, False, 0)
-    naive_bayes(0.2, 0.2, 0.2, 0.2, True, 0)
+    naive_bayes(useLog=False, alpha=0)
+    naive_bayes(alpha=0)
 
 
 def question2():
     boxedPrint("Question 2")
+    naive_bayes()
 
+    x, y = [], []
+    alpha = 0.0001
+    while alpha <= 1000:
+        x.append(alpha)
+        print(f"Running {alpha = }")
+        res = naive_bayes(alpha=alpha, output=False)
+        y.append((res[0] + res[3]) / sum(res))
+        a *= 10
 
-def main():
-    question1()
+    plt.xscale("log")
+    plt.plot(x, y)
+
+    plt.show()
 
 
 if __name__ == "__main__":
-    main()
+    # question1()
+    question2()
