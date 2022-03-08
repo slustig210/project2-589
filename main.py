@@ -49,6 +49,8 @@ def question6():
 
 
 if __name__ == "__main__":
+    print()
+
     import sys
 
     if len(sys.argv) > 1:
