@@ -99,7 +99,15 @@ def question(arg: int | Callable[[], None]):
 
 
 def boxedPrint(s: str, boxChar: str = '*'):
-    assert len(boxChar) == 1
+    """Print the inputted string with a box around it.
+
+    Args:
+        s (str): The string to print.
+        boxChar (str, optional): The character to create the box with. Must be length 1. Defaults to '*'.
+    """
+
+    assert len(
+        boxChar) == 1, "boxChar must be a single character with length 1."
 
     print(boxChar * (len(s) + 4))
     print(f"{boxChar} {s} {boxChar}")
