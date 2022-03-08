@@ -167,12 +167,18 @@ def question3():
     naive_bayes(1, 1, 1, 1, alpha=10)
 
 
+def question4():
+    boxedPrint("Question 4")
+    naive_bayes(0.5, 0.5, 1, 1, alpha=10)
+
+
 QUESTION_MAP = {
     '1': question1,
     '2': question2,
     '3': question3,
-    # 4: question4,
-    # 5: question5,
+    '4': question4,
+    # '5': question5,
+    # '6': question6
 }
 
 if __name__ == "__main__":
