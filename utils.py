@@ -2,6 +2,7 @@ import re
 import os
 import glob
 import random
+from typing import Callable, overload
 from nltk.corpus import stopwords
 import nltk
 
@@ -65,3 +66,33 @@ def load_test_set(percentage_positives, percentage_negatives):
             contents = preprocess_text(contents)
             negative_instances.append(contents)
     return positive_instances, negative_instances
+
+
+QUESTIONS = dict[str, Callable[[], None]]()
+
+
+@overload
+def question(num: int) -> Callable[[Callable[[], None]], Callable[[], None]]:
+    ...
+
+
+@overload
+def question(f: Callable[[], None]) -> Callable[[], None]:
+    ...
+
+
+def question(arg: int | Callable[[], None]):
+    mx: int = getattr(question, "mx", 0)
+
+    if isinstance(arg, int):
+
+        def decorator(f: Callable[[], None]):
+            QUESTIONS[str(arg)] = f
+            question.mx = max(arg, mx)
+            return f
+
+        return decorator
+
+    question.mx = mx + 1
+    QUESTIONS[str(question.mx)] = arg
+    return arg

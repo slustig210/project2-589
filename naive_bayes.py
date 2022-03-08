@@ -1,8 +1,6 @@
 from utils import load_training_set, load_test_set
-# import pprint
 from collections import Counter
 from math import inf, prod, log2
-import matplotlib.pyplot as plt
 
 
 def naive_bayes(percentage_positive_instances_train: float = 0.2,
@@ -126,63 +124,3 @@ def naive_bayes(percentage_positive_instances_train: float = 0.2,
         print('-' * 30)
 
     return truePos, falseNeg, falsePos, trueNeg
-
-
-def boxedPrint(s: str, boxChar: str = '*'):
-    assert len(boxChar) == 1
-
-    print(boxChar * (len(s) + 4))
-    print(f"{boxChar} {s} {boxChar}")
-    print(boxChar * (len(s) + 4))
-
-
-def question1():
-    # Question 1
-    boxedPrint("Question 1")
-    naive_bayes(useLog=False, alpha=0)
-    naive_bayes(alpha=0)
-
-
-def question2():
-    boxedPrint("Question 2")
-    naive_bayes()
-
-    x, y = [], []
-    alpha = 0.0001
-    while alpha <= 1000:
-        x.append(alpha)
-        print(f"Running {alpha = }")
-        res = naive_bayes(alpha=alpha, output=False)
-        y.append((res[0] + res[3]) / sum(res))
-        alpha *= 10
-
-    plt.xscale("log")
-    plt.plot(x, y)
-
-    plt.show()
-
-
-def question3():
-    boxedPrint("Question 3")
-    naive_bayes(1, 1, 1, 1, alpha=10)
-
-
-def question4():
-    boxedPrint("Question 4")
-    naive_bayes(0.5, 0.5, 1, 1, alpha=10)
-
-
-QUESTION_MAP = {
-    '1': question1,
-    '2': question2,
-    '3': question3,
-    '4': question4,
-    # '5': question5,
-    # '6': question6
-}
-
-if __name__ == "__main__":
-    import sys
-
-    for arg in sys.argv[1:]:
-        QUESTION_MAP[arg]()
