@@ -52,13 +52,13 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) > 1:
-        for arg in sys.argv:
+        for arg in sys.argv[1:]:
             try:
                 QUESTIONS[int(arg)]()
             except ValueError:
-                pass
+                print("Please provide integer arguments.")
             except KeyError:
-                print(f"No such question {arg}")
+                print(f"No such question number {arg}.")
     else:
         for q in QUESTIONS.values():
             q()
