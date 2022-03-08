@@ -55,7 +55,7 @@ if __name__ == "__main__":
         for arg in sys.argv:
             try:
                 QUESTIONS[int(arg)]()
-            except ValueError:
+            except (KeyError, ValueError):
                 pass
     else:
         for q in QUESTIONS.values():
