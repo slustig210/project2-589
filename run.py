@@ -154,7 +154,7 @@ def question2():
         print(f"Running {alpha = }")
         res = naive_bayes(alpha=alpha, output=False)
         y.append((res[0] + res[3]) / sum(res))
-        a *= 10
+        alpha *= 10
 
     plt.xscale("log")
     plt.plot(x, y)
@@ -162,6 +162,12 @@ def question2():
     plt.show()
 
 
+def question3():
+    boxedPrint("Question 3")
+    naive_bayes(1, 1, 1, 1, alpha=10)
+
+
 if __name__ == "__main__":
     # question1()
-    question2()
+    # question2()
+    question3()
