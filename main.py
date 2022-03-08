@@ -45,7 +45,7 @@ def question4():
 @question(6)
 def question6():
     boxedPrint("Question 6")
-    naive_bayes(0.1, 0.5, 1, 1)
+    naive_bayes(0.1, 0.5, 1, 1, alpha=10)
 
 
 if __name__ == "__main__":
