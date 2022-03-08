@@ -82,6 +82,41 @@ def question(f: Callable[[], None]) -> Callable[[], None]:
 
 
 def question(arg: int | Callable[[], None]):
+    """
+    `question: (num: int) -> ((() -> None) -> (() -> None))`
+    
+    Returns a decorator to add the question with the given number
+    to the QUESTIONS dict.
+
+    Args:
+        num (int): The question number
+
+    Returns:
+        (() -> None) -> (() -> None): The decorator.
+
+    Usage:
+
+    >>> @question(4)
+    ... def myQuestion():
+    ...     ...
+    ... 
+    >>> QUESTIONS['4'] == myQuestion
+    True
+
+    --------------------------------------------------------------------
+
+    `question: (f: () -> None) -> (() -> None)`
+
+    Decorator to add the next question to the QUESTIONS dict.
+    The key will be one plus the last question; the last question is the maximum
+    question number so far.
+
+    Args:
+        f (() -> None): The function corresponding to the next question.
+
+    Returns:
+        f, unmodified
+    """
     mx: int = getattr(question, "mx", 0)
 
     if isinstance(arg, int):
