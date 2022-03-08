@@ -32,6 +32,10 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
 
     assert alpha >= 0
 
+    print('-' * 30)
+    print("Beginning test.")
+    print(f"Running with{'' if useLog else 'out'} log probabilities")
+    print(f"{alpha = }")
     print("Loading instances...")
 
     pos_train, neg_train, vocab = load_training_set(
@@ -48,9 +52,6 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
 
     assert len(pos_train) + len(neg_train) > 0, \
             f"{len(pos_train) = }, {len(neg_train) = }"
-
-    print(f"Running with{'' if useLog else 'out'} log probabilities")
-    print(f"{alpha = }")
 
     alphaV = alpha * len(vocab)
 
@@ -103,12 +104,13 @@ def naive_bayes(percentage_positive_instances_train: float = 0.0004,
 
     trueNeg, falseNeg = len(neg_test) - falsePos, len(pos_test) - truePos
 
-    print("Confusion matrix:")
-    print(f"{truePos:<12}{falseNeg}\n{falsePos:<12}{falseNeg}")
-
     print("Accuracy:", (truePos + falsePos) / (len(pos_test) + len(neg_test)))
     print("Precision:", truePos / (truePos + falsePos))
     print("Recall:", truePos / (truePos + falseNeg))
+    print("Confusion matrix:")
+    print(f"{truePos:<12}{falseNeg}\n{falsePos:<12}{falseNeg}")
+
+    print('-' * 30)
 
     return truePos, falseNeg, falsePos, trueNeg
 
@@ -125,6 +127,7 @@ def question1():
     # Question 1
     boxedPrint("Question 1")
     naive_bayes(0.2, 0.2, 0.2, 0.2, False, 0)
+    naive_bayes(0.2, 0.2, 0.2, 0.2, True, 0)
 
 
 def main():
