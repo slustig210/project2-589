@@ -167,7 +167,16 @@ def question3():
     naive_bayes(1, 1, 1, 1, alpha=10)
 
 
+QUESTION_MAP = {
+    1: question1,
+    2: question2,
+    3: question3,
+    # 4: question4,
+    # 5: question5,
+}
+
 if __name__ == "__main__":
-    # question1()
-    # question2()
-    question3()
+    import sys
+
+    for arg in sys.argv[1:]:
+        QUESTION_MAP(int(arg))
