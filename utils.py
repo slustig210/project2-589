@@ -96,3 +96,11 @@ def question(arg: int | Callable[[], None]):
     question.mx = mx + 1
     QUESTIONS[str(question.mx)] = arg
     return arg
+
+
+def boxedPrint(s: str, boxChar: str = '*'):
+    assert len(boxChar) == 1
+
+    print(boxChar * (len(s) + 4))
+    print(f"{boxChar} {s} {boxChar}")
+    print(boxChar * (len(s) + 4))

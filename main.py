@@ -1,14 +1,6 @@
-from utils import question, QUESTIONS
+from utils import question, QUESTIONS, boxedPrint
 import matplotlib.pyplot as plt
 from naive_bayes import naive_bayes
-
-
-def boxedPrint(s: str, boxChar: str = '*'):
-    assert len(boxChar) == 1
-
-    print(boxChar * (len(s) + 4))
-    print(f"{boxChar} {s} {boxChar}")
-    print(boxChar * (len(s) + 4))
 
 
 @question
