@@ -2,7 +2,7 @@ import re
 import os
 import glob
 import random
-from typing import Callable, overload
+from typing import Callable
 from nltk.corpus import stopwords
 import nltk
 
@@ -68,24 +68,11 @@ def load_test_set(percentage_positives, percentage_negatives):
     return positive_instances, negative_instances
 
 
-QUESTIONS = dict[str, Callable[[], None]]()
+QUESTIONS = dict[int, Callable[[], None]]()
 
 
-@overload
 def question(num: int) -> Callable[[Callable[[], None]], Callable[[], None]]:
-    ...
-
-
-@overload
-def question(f: Callable[[], None]) -> Callable[[], None]:
-    ...
-
-
-def question(arg: int | Callable[[], None]):
-    """
-    `question: (num: int) -> ((() -> None) -> (() -> None))`
-    
-    Returns a decorator to add the question with the given number
+    """Returns a decorator to add the question with the given number
     to the QUESTIONS dict.
 
     Args:
@@ -101,54 +88,13 @@ def question(arg: int | Callable[[], None]):
     ... 
     >>> QUESTIONS['4'] == myQuestion
     True
-
-    --------------------------------------------------------------------
-
-    `question: (f: () -> None) -> (() -> None)`
-
-    Decorator to add the next question to the QUESTIONS dict.
-    The key will be one plus the last question; the last question is the maximum
-    question number so far.
-
-    Args:
-        f (() -> None): The function corresponding to the next question.
-
-    Returns:
-        f, unmodified
-
-    Usage:
-
-    >>> @question
-    ... def myQuestion1():
-    ...
-    >>> @question
-    ... def myQuestion2():
-    ...
-    >>> QUESTIONS['2'] == myQuestion2
-    True
-    >>> @question(6)
-    ... def myQuestion6():
-    ...
-    >>> @question
-    ... def myQuestion7():
-    ...
-    >>> QUESTIONS['7'] == myQuestion7
-    True
     """
-    mx: int = getattr(question, "mx", 0)
 
-    if isinstance(arg, int):
+    def decorator(f: Callable[[], None]):
+        QUESTIONS[num] = f
+        return f
 
-        def decorator(f: Callable[[], None]):
-            QUESTIONS[str(arg)] = f
-            question.mx = max(arg, mx)
-            return f
-
-        return decorator
-
-    question.mx = mx + 1
-    QUESTIONS[str(question.mx)] = arg
-    return arg
+    return decorator
 
 
 def boxedPrint(s: str, boxChar: str = '*'):

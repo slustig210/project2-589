@@ -3,14 +3,14 @@ import matplotlib.pyplot as plt
 from naive_bayes import naive_bayes
 
 
-@question
+@question(1)
 def question1():
     boxedPrint("Question 1")
     naive_bayes(useLog=False, alpha=0)
     naive_bayes(alpha=0)
 
 
-@question
+@question(2)
 def question2():
     boxedPrint("Question 2")
     naive_bayes()
@@ -30,13 +30,13 @@ def question2():
     plt.show()
 
 
-@question
+@question(3)
 def question3():
     boxedPrint("Question 3")
     naive_bayes(1, 1, 1, 1, alpha=10)
 
 
-@question
+@question(4)
 def question4():
     boxedPrint("Question 4")
     naive_bayes(0.5, 0.5, 1, 1, alpha=10)
@@ -51,5 +51,12 @@ def question6():
 if __name__ == "__main__":
     import sys
 
-    for arg in sys.argv[1:]:
-        QUESTIONS[arg]()
+    if len(sys.argv[1:]) > 1:
+        for arg in sys.argv:
+            try:
+                QUESTIONS[int(arg)]()
+            except KeyError:
+                pass
+    else:
+        for q in QUESTIONS.values():
+            q()
