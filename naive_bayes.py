@@ -1,6 +1,7 @@
 from utils import load_training_set, load_test_set
 from collections import Counter
 from math import inf, prod, log2
+from random import random
 
 
 def naive_bayes(percentage_positive_instances_train: float = 0.2,
@@ -96,7 +97,7 @@ def naive_bayes(percentage_positive_instances_train: float = 0.2,
             except ValueError:
                 neg = -inf
 
-            return pos >= neg
+            return pos > neg if pos != neg else (random() >= 0.5)
     else:
 
         def evaluateDoc(doc: list[str]):
@@ -106,7 +107,7 @@ def naive_bayes(percentage_positive_instances_train: float = 0.2,
             neg = prNeg * prod(
                 (negCounts[w] + alpha) / (totalNegCounts + alphaV) for w in s)
 
-            return pos >= neg
+            return pos > neg if pos != neg else (random() >= 0.5)
 
     truePos = sum(1 for doc in pos_test if evaluateDoc(doc))
     falsePos = sum(1 for doc in neg_test if evaluateDoc(doc))
