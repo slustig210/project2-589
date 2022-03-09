@@ -22,9 +22,9 @@ def preprocess_text(text: str):
 
 
 def load_training_set(percentage_positives, percentage_negatives):
-    vocab: set[str] = set()
-    positive_instances: list[list[str]] = []
-    negative_instances: list[list[str]] = []
+    vocab = set[str]()
+    positive_instances = list[list[str]]()
+    negative_instances = list[list[str]]()
     for filename in glob.glob('train/pos/*.txt'):
         if random.random() > percentage_positives:
             continue
@@ -47,8 +47,8 @@ def load_training_set(percentage_positives, percentage_negatives):
 
 
 def load_test_set(percentage_positives, percentage_negatives):
-    positive_instances: list[list[str]] = []
-    negative_instances: list[list[str]] = []
+    positive_instances = list[list[str]]()
+    negative_instances = list[list[str]]()
     for filename in glob.glob('test/pos/*.txt'):
         if random.random() > percentage_positives:
             continue
