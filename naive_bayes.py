@@ -57,6 +57,9 @@ def naive_bayes(percentage_positive_instances_train: float = 0.2,
     assert len(pos_train) + len(neg_train) > 0, \
             f"{len(pos_train) = }, {len(neg_train) = }"
 
+    assert len(pos_test) + len(neg_test) > 0, \
+            f"{len(pos_test) = }, {len(neg_test) = }"
+
     if output:
         print("Training...")
 
@@ -117,8 +120,20 @@ def naive_bayes(percentage_positive_instances_train: float = 0.2,
     if output:
         print("Accuracy:",
               (truePos + trueNeg) / (len(pos_test) + len(neg_test)))
-        print("Precision:", truePos / (truePos + falsePos))
-        print("Recall:", truePos / (truePos + falseNeg))
+
+        try:
+            prec = truePos / (truePos + falsePos)
+        except ZeroDivisionError:
+            prec = "Undefined"
+
+        print("Precision:", prec)
+
+        try:
+            rec = truePos / (truePos + falseNeg)
+        except ZeroDivisionError:
+            rec = "Undefined"
+        
+        print("Recall:", rec)
         print("Confusion matrix:")
         print(f"{truePos:<12}{falseNeg}\n{falsePos:<12}{trueNeg}")
 
