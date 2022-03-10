@@ -9,7 +9,9 @@ or negative movie reviews respectively.
 
 The required dependencies are `matplotlib` and `nltk`. Install these using `pip`.
 Also the python version should be `python3` (I am using `3.10.2`, I believe `3.9` should
-work as well (?))
+work as well (?)).
+
+Can also use `pip install -r requirements.txt` to install these.
 
 # Running the code
 
