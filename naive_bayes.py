@@ -134,6 +134,7 @@ def naive_bayes(percentage_positive_instances_train: float = 0.2,
             rec = "Undefined"
         
         print("Recall:", rec)
+        
         print("Confusion matrix:")
         print(f"{truePos:<12}{falseNeg}\n{falsePos:<12}{trueNeg}")
 
