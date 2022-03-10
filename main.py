@@ -25,6 +25,8 @@ def question2():
         alpha *= 10
 
     plt.xscale("log")
+    plt.xlabel("Value of \u03B1")
+    plt.ylabel("Accuracy of model")
     plt.plot(x, y)
 
     plt.show()
